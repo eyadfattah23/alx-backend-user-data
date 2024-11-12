@@ -19,9 +19,23 @@ class Auth:
             excluded_paths (List[str]): _description_
 
         Returns:
-            bool: _description_
+            bool: True if the path is not in the list of strings
         """
-        return False
+
+        """ if (path is None) \
+                or (excluded_paths is None) \
+                or (excluded_paths == []):
+            return True
+
+        if (path in excluded_paths) or (path+"/" in excluded_paths):
+            return False
+        else:
+            return True """
+
+        return (path is None or excluded_paths is None or excluded_paths == []
+                or
+                path not in excluded_paths
+                and path + "/" not in excluded_paths)
 
     def authorization_header(self, request=None) -> str:
         """_summary_
