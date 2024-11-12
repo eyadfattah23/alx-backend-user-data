@@ -117,3 +117,9 @@ To send the `Authorization` header in a request, you need to set the header prop
   ```
 
 In both examples, the `Authorization` header includes the keyword "Basic" followed by the Base64-encoded credentials. This enables the server to decode and verify the credentials to authenticate the client.
+
+### 6. What are authentication and authorization?
+
+In simple terms, authentication is the process of verifying who a user is, while authorization is the process of verifying what they have access to.
+
+Comparing these processes to a real-world example, when you go through security in an airport, you show your ID to authenticate your identity. Then, when you arrive at the gate, you present your boarding pass to the flight attendant, so they can authorize you to board your flight and allow access to the plane.
