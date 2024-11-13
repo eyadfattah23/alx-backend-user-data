@@ -12,14 +12,20 @@ class Auth:
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """_summary_
+        """ Make sure that user only access authorized paths
 
         Args:
-            path (str): _description_
-            excluded_paths (List[str]): _description_
+            path (str): path requested by user.
+            excluded_paths (List[str]): paths prohibited to the user
 
         Returns:
-            bool: True if the path is not in the list of strings
+            bool:
+                True if:
+                    * the path is not in the list of strings
+                    * path is None
+                    * excluded_paths is None or empty
+                    * excluded_paths is None or empty
+                otherwise False
         """
 
         """ if (path is None) \
@@ -31,24 +37,26 @@ class Auth:
             return False
         else:
             return True """
-
         return (path is None or excluded_paths is None or excluded_paths == []
                 or
                 path not in excluded_paths
                 and path + "/" not in excluded_paths)
 
     def authorization_header(self, request=None) -> str:
-        """_summary_
+        """check if the request has the required authorization header
 
         Args:
-            request (_type_, optional): _description_. Defaults to None.
+            request (flask.Request, optional): request by client.
+                                                Defaults to None.
 
         Returns:
-            str: _description_
+            str: the value of the authorization header key
         """
-        return request
+        if request is None:
+            return None
+        return request.headers.get('Authorization', None)
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """returns None - request
         """
-        return request
+        return None
