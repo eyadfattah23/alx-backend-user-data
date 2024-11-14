@@ -23,7 +23,7 @@ class SessionAuth(Auth):
         - None if user_id is not a string
         - str: Session ID using uuid module and uuid4()
 
-        Note: 
+        Note:
         - The same user_id can have multiple Session ID
         """
 
@@ -33,3 +33,19 @@ class SessionAuth(Auth):
         self.session_id = str(uuid.uuid4())
         self.user_id_by_session_id[self.session_id] = user_id
         return self.session_id
+
+    def user_id_for_session_id(self, session_id: str = None) -> str:
+        """ returns a User ID based on a Session ID
+
+        Args:
+            session_id (str, optional): _description_. Defaults to None.
+
+        Returns:
+        - None: session_id is None
+        - None: session_id is not a string
+        - str: (the User ID) for the key session_id in user_id_by_session_id.
+        """
+        if not session_id or not isinstance(session_id, str):
+            return None
+
+        return self.user_id_by_session_id.get(session_id, None)
