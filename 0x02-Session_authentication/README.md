@@ -191,3 +191,102 @@ console.log(cookies["sessionId"]);  // Access a specific cookie
 - **Cookies** are small data pieces stored on the client’s browser.
 - **Sending Cookies** can be done with the `Set-Cookie` header.
 - **Parsing Cookies** involves reading the `Cookie` header or using JavaScript to access `document.cookie`.
+
+---
+
+
+In Flask, the `request` object is an instance of the `Request` class and provides all the details about the incoming HTTP request. Here’s a comprehensive list of the primary attributes and methods available in `flask.request`:
+
+### 1. Request Metadata and Context
+- **`request.method`**: The HTTP method (e.g., `GET`, `POST`) used for the request.
+- **`request.url`**: The complete URL of the request.
+- **`request.base_url`**: The base URL, excluding any query string.
+- **`request.path`**: The URL path of the request, e.g., `/api/v1/status`.
+- **`request.full_path`**: The full URL path, including the query string.
+- **`request.script_root`**: The root path of the application.
+- **`request.url_root`**: The root URL, including the script root and a trailing slash.
+- **`request.host`**: The host name of the server.
+- **`request.host_url`**: The URL of the host.
+- **`request.remote_addr`**: The IP address of the client.
+- **`request.scheme`**: The scheme of the URL, like `http` or `https`.
+- **`request.is_secure`**: Boolean indicating whether the request was sent over HTTPS.
+
+### 2. Headers and Cookies
+- **`request.headers`**: A dictionary-like object containing HTTP headers.
+- **`request.cookies`**: A dictionary of cookies sent by the client.
+- **`request.content_type`**: The MIME type of the request data.
+- **`request.content_length`**: The length of the request body, in bytes.
+
+### 3. Query Parameters and Form Data
+- **`request.args`**: The parsed query string arguments, a `MultiDict` object (e.g., for `?key=value`).
+- **`request.form`**: The parsed form data from a POST or PUT request, a `MultiDict` object.
+- **`request.values`**: A combined `MultiDict` containing both `args` and `form`.
+- **`request.data`**: The raw data of the request as bytes.
+- **`request.json`**: The JSON payload parsed into a Python dictionary, if the request has JSON content.
+- **`request.files`**: A `MultiDict` object of file uploads, if any.
+
+### 4. Session and User-Related Information
+- **`request.authorization`**: Contains an `Authorization` object, with `username` and `password` attributes if HTTP Basic Auth is used.
+- **`request.remote_user`**: The `REMOTE_USER` of the request if set by an authentication mechanism.
+
+### 5. Request-Specific Information
+- **`request.endpoint`**: The endpoint for the matched route.
+- **`request.view_args`**: The arguments passed to the view function.
+- **`request.blueprint`**: The blueprint handling the request, if any.
+- **`request.mimetype`**: The media type of the request, like `application/json`.
+- **`request.mimetype_params`**: Parameters of the MIME type, if any (e.g., charset).
+
+### 6. File and Input Stream
+- **`request.stream`**: A file-like object for reading the request body.
+- **`request.get_data()`**: Reads the raw data of the request as bytes.
+- **`request.get_json(force=False, silent=False, cache=True)`**: Parses the request data as JSON.
+  
+### 7. Utility Methods
+- **`request.get_cookie(key)`**: Retrieves a cookie by key.
+- **`request.get_data(parse_form_data=False, as_text=False)`**: Returns the raw request data; optionally decodes it to text.
+- **`request.get_host()`**: Returns the host including the port, if specified.
+
+### 8. Environment and Context Variables
+- **`request.environ`**: The WSGI environment dictionary for the request.
+- **`request.blueprint`**: Returns the blueprint name if the request is served by a blueprint.
+
+### Example Usage
+
+In practice, here’s how you might use some of these attributes and methods:
+
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/example', methods=['GET', 'POST'])
+def example():
+    # Accessing query parameters
+    param = request.args.get('param', default="default value")
+
+    # Accessing form data
+    form_value = request.form.get('form_key')
+
+    # Checking the request method
+    method = request.method
+
+    # Accessing JSON data
+    if request.is_json:
+        json_data = request.get_json()
+    
+    # Accessing headers
+    user_agent = request.headers.get('User-Agent')
+    
+    # Accessing cookies
+    session_cookie = request.cookies.get('session_id')
+
+    # Full request info as JSON
+    return jsonify({
+        "method": method,
+        "param": param,
+        "form_value": form_value,
+        "json_data": json_data,
+        "user_agent": user_agent,
+        "session_cookie": session_cookie
+    })
+```
