@@ -45,19 +45,12 @@ class Auth:
         if (path in excluded_paths) or (path+"/" in excluded_paths):
             return False
 
-        else:
-            for ex_path in excluded_paths:
-                if '*' in ex_path:
-                    actual_path = ex_path.replace('*', '.+')
-                    if re.search(actual_path, ex_path):
-                        return False
-
-            return True
-        """ return ((path is None) \
-            or (excluded_paths is None) or (excluded_paths == [])
-                or
-                (path not in excluded_paths
-                and path + "/" not in excluded_paths)) """
+        for ex_path in excluded_paths:
+            if '*' in ex_path:
+                actual_path = ex_path.replace('*', '.*')
+                if re.fullmatch(actual_path, ex_path):
+                    return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """check if the request has the required authorization header
