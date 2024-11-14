@@ -48,7 +48,7 @@ class Auth:
         for ex_path in excluded_paths:
             if '*' in ex_path:
                 actual_path = ex_path.replace('*', '.*')
-                if re.fullmatch(actual_path, ex_path):
+                if re.fullmatch(actual_path, path):
                     return False
         return True
 
