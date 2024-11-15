@@ -78,6 +78,7 @@ class Auth:
         Args:
             request (flask http request, optional). Defaults to None.
         """
-
+        if request is None:
+            return None
         return request.cookies.\
             get(getenv('SESSION_NAME'))
