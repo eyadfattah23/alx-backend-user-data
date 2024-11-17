@@ -53,7 +53,7 @@ class SessionDBAuth(SessionExpAuth):
         if not sessions_list:
             return None
 
-        return sessions_list[0]
+        return sessions_list[0].to_json().get('user_id')
 
     def destroy_session(self, request=None) -> bool:
         """delete a user session from the database
