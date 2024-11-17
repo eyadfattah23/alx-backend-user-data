@@ -60,14 +60,14 @@ class SessionDBAuth(SessionExpAuth):
         """
 
         if request is None:
-            return None
+            return False
 
         session_id = self.session_cookie(request)
         if not session_id:
-            return None
+            return False
 
         user_session = UserSession.search({"session_id": session_id})
         if not user_session:
-            return None
+            return False
         user_session[0].remove()
-        return user_session.user_id
+        return True
