@@ -6,8 +6,6 @@
 """
 
 from api.v1.auth.session_auth import SessionAuth
-import uuid
-from models.user import User
 from os import getenv
 from datetime import datetime, timedelta
 
