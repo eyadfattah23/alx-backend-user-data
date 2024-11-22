@@ -67,6 +67,10 @@ class DB:
         Args:
             user_id (int): user id
         """
+        user_keys = list(User.__dict__.keys())
+        for key in kwargs.keys():
+            if key not in user_keys:
+                raise ValueError
         try:
             usr = self.find_user_by(id=user_id)
         except (InvalidRequestError, NoResultFound) as IRE:
