@@ -60,3 +60,20 @@ class DB:
         if not filtered_user:
             raise NoResultFound
         return filtered_user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """update a user having user_id, using the provided kwargs
+
+        Args:
+            user_id (int): user id
+        """
+        try:
+            usr = self.find_user_by(id=user_id)
+        except InvalidRequestError as IRE:
+            raise ValueError
+        if not usr:
+            return None
+
+        usr.__dict__.update(**kwargs)
+
+        return None
