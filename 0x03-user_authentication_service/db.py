@@ -69,10 +69,10 @@ class DB:
         """
         try:
             usr = self.find_user_by(id=user_id)
-        except InvalidRequestError as IRE:
+        except (InvalidRequestError, NoResultFound) as IRE:
             raise ValueError
         if not usr:
-            return None
+            raise ValueError
 
         usr.__dict__.update(**kwargs)
 
