@@ -55,7 +55,7 @@ class DB:
             if key not in user_keys:
                 raise InvalidRequestError
 
-        filtered_user = self._session.query(User).filter_by(**kwargs).first()
+        filtered_user = self._session.query(User).filter_by(**kwargs).one()
 
         if not filtered_user:
             raise NoResultFound
