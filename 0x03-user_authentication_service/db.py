@@ -44,7 +44,7 @@ class DB:
 
         return usr
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """return the first row found in the users table
             filtered by the input arguments.
         """
@@ -55,7 +55,7 @@ class DB:
             if key not in user_keys:
                 raise InvalidRequestError
 
-        filtered_user = self._session.query(User).filter_by(**kwargs).one()
+        filtered_user = self._session.query(User).filter_by(**kwargs).first()
 
         if not filtered_user:
             raise NoResultFound
