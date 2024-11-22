@@ -49,6 +49,8 @@ class DB:
             filtered by the input arguments.
         """
         user_keys = list(User.__dict__.keys())
+        if not kwargs:
+            raise InvalidRequestError
         for key in kwargs.keys():
             if key not in user_keys:
                 raise InvalidRequestError
