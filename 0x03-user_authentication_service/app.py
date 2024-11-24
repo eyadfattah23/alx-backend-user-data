@@ -59,7 +59,7 @@ def login():
 def logout():
     """logout function to respond to the DELETE /sessions route.
     """
-    session_id = request.form.get('session_id')
+    session_id = request.cookies.get('session_id', None)
 
     if not session_id:
         abort(403)
