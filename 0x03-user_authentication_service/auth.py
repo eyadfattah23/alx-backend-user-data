@@ -35,7 +35,7 @@ def _generate_uuid() -> str:
     Returns:
         str: a new uuid.uuid4 string
     """
-    return uuid.uuid4()
+    return str(uuid.uuid4())
 
 
 class Auth:
@@ -82,3 +82,22 @@ class Auth:
             return False
 
         return bcrypt.checkpw(password.encode('utf-8'), usr.hashed_password)
+
+    def create_session(self, email: str) -> str:
+        """
+            find the user corresponding to the email,
+                generate a new UUID
+                and store it in the database as the user’s session_id
+
+        Args:
+            email (str): user email to check if the user is already
+                        existing
+
+        Returns:
+            str: a new session id
+        """
+
+        try:
+            usr = self._db.find_user_by(email=email)
+        except Exception as e:
+            return None
