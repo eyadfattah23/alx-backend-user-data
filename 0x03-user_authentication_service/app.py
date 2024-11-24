@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """simple module for starting a flask server"""
 from auth import Auth
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, \
+    redirect, url_for
+
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -51,6 +53,21 @@ def login():
     resp.set_cookie("sessionID", sessionID)
 
     return resp
+
+
+@app.route("/sessions", methods=["DELETE"])
+def logout():
+    """logout function to respond to the DELETE /sessions route.
+    """
+    session_id = request.form.get('session_id')
+
+    usr = AUTH.get_user_from_session_id(session_id)
+
+    if not usr:
+        abort(403)
+
+    AUTH.destroy_session(usr.id)
+    return redirect(url_for('/'))
 
 
 if __name__ == "__main__":
