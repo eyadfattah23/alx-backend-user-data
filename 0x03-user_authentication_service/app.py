@@ -4,6 +4,7 @@ from auth import Auth
 from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
+AUTH = Auth()
 
 
 @app.route("/", methods=['GET'])
@@ -16,7 +17,6 @@ def hello_world():
 @app.route("/users", methods=["POST"])
 def users():
     """end-point to register a new user"""
-    AUTH = Auth()
 
     email, password = request.form.get('email'), request.form.get('password')
     if not email or not password:
@@ -33,7 +33,6 @@ def users():
 def login():
     """create a new session for the user, store it the session ID as a cookie
     """
-    AUTH = Auth()
 
     email, password = request.form.get('email'), request.form.get('password')
     if not email or not password:
