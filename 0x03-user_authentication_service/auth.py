@@ -40,8 +40,10 @@ class Auth:
         """add a new user to the database
 
         Args:
-            email (str): mandatory
-            password (str): mandatory
+            email (str): mandatory user email that will be
+                            added to the database
+            password (str): mandatory user email that will be
+                            added to the database
         """
         try:
             if self._db.find_user_by(email=email):
