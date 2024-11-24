@@ -105,3 +105,23 @@ class Auth:
         usr.session_id = _generate_uuid()
 
         return usr.session_id
+
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """retrieve user having the session id passed as argument
+
+        Args:
+            session_id (str): session id used to retrieve the user
+
+        Returns:
+            User: corresponding user to the session ID.
+            None: if the session ID is None or no user is found,
+        """
+        if not session_id:
+            return None
+
+        try:
+            usr = self._db.find_user_by(session_id=session_id)
+        except Exception as exc:
+            return None
+
+        return usr
