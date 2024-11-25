@@ -50,7 +50,7 @@ def login():
         abort(401)
 
     resp = jsonify({"email": "<user email>", "message": "logged in"})
-    resp.set_cookie("sessionID", sessionID)
+    resp.set_cookie("session_id", sessionID)
 
     return resp
 
