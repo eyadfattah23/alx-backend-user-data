@@ -115,5 +115,32 @@ Otherwise, generate a token, respond with a 200 code + the following JSON:
     return jsonify({"email": email, "reset_token": usr_token})
 
 
+@app.route("/reset_password", methods=["PUT"])
+def update_password():
+    """respond to the `PUT /reset_password` route.
+
+    request should have form data:`"email"`, `"reset_token"`, `"new_password"`
+
+    Update the password.
+    If the token is invalid, catch the exception + respond with a 403 HTTP code
+
+    If the token is valid, respond with a 200 HTTP code and the JSON payload:
+
+    ```{"email": "<user email>", "message": "Password updated"}
+
+    """
+    form = request.form
+    email = form.get('email')
+    reset_token = form.get('reset_token')
+    new_password = form.get('new_password')
+
+    try:
+        AUTH.update_password(reset_token, new_password)
+    except ValueError:
+        abort(403)
+
+    return jsonify({"email": email, "message": "Password updated"})
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
