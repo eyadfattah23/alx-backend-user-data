@@ -63,7 +63,9 @@ def reset_password_token(email: str) -> str:
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     """test updating password"""
     resp = requests.put(url=url+"reset_password", data={
-                        "email": email, "reset_token": reset_token, "new_password": new_password})
+                        "email": email,
+                        "reset_token": reset_token,
+                        "new_password": new_password})
     assert resp.status_code == 200
     assert resp.json() == {"email": email, "message": "Password updated"}
 
