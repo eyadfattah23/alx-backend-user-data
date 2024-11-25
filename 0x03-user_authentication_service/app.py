@@ -79,6 +79,8 @@ def profile():
     ```
     {"email": "<user email>"}
     ```
+    request is expected to contain a session_id cookie.
+    Used to find the user.
 
     """
     session_id = request.cookies.get('session_id', None)
@@ -90,6 +92,27 @@ def profile():
         abort(403)
 
     return jsonify({"email": usr.email}), 200
+
+
+@app.route("/reset_password", methods=["POST"])
+def get_reset_password_token():
+    """respond to the `POST /reset_password` route.
+
+The request is expected to contain form data with the `"email"` field.
+
+If the email is not registered, respond with a 403 status code.
+Otherwise, generate a token, respond with a 200 code + the following JSON:
+
+```{"email": "<user email>", "reset_token": "<reset token>"}
+"""
+
+    email = request.form.get('email')
+    try:
+        usr_token = AUTH.get_reset_password_token(email)
+    except ValueError:
+        abort(403)
+
+    return jsonify({"email": email, "reset_token": usr_token})
 
 
 if __name__ == "__main__":
