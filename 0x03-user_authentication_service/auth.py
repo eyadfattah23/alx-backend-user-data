@@ -152,3 +152,19 @@ class Auth:
         usr.reset_token = _generate_uuid()
 
         return usr.reset_token
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """hash a new password and update the user’s hashed_password field
+
+        Args:
+            reset_token (str): Used to find the corresponding user.
+            password (str): the new password to hash and set.
+        """
+        try:
+            usr = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+
+        usr.hashed_password, usr.reset_token = _hash_password(password), None
+
+        return None
